@@ -11,8 +11,10 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
     }
     body{
-        background-color:  #F2F6FF;
+        background-color:  #131324;
         font-size: 1.2rem;
+         height: 100vh;
+        width: 100vw;
     }
     a{
         color: inherit;
