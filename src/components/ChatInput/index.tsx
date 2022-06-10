@@ -8,6 +8,7 @@ import Container from "./style";
 type InputProp = {
     handleSendMsg: (msg: string) => void
 }
+
 export default function ChatInput({ handleSendMsg }: InputProp) {
   const [msg, setMsg] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -15,7 +16,7 @@ export default function ChatInput({ handleSendMsg }: InputProp) {
     setShowEmojiPicker(!showEmojiPicker);
   };
 
-  const handleEmojiClick = (event: any, emojiObject: { emoji: string; }) => {
+  const handleEmojiClick = (event: React.MouseEvent, emojiObject: { emoji: string; }) => {
     let message = msg;
     message += emojiObject.emoji;
     setMsg(message);

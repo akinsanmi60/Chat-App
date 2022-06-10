@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Robot from "../../assets/robot.gif";
 import { Container } from "./style";
+
+
 export default function Welcome() {
     const [userName, setUserName] = useState("");
 

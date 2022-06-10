@@ -2,6 +2,18 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Thanks to Kishan Sheth 
+
+For his Realtime Chat App with React, Node.js, Socket.io and MongoDB on Youtube,
+his code was on compiled on React JS while i compile mine on React TypeScript.. This
+brought about modifications on my code. Tho, i will re-modify the css to my design soon.
+# What I Learnt Doing This Clone Chat-App
+
+=> I learnt how to configure socket io on both frontend and backend
+=> The logic behind the flow of a simple chat-app
+=>  How to use avatar and react loaders in projects
+=> Effect-Callback in useEffect hook
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -39,8 +51,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

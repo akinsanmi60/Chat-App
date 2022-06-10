@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../../utils/APIRoutes";
 import Container from "./styled";
+import { Socket } from "socket.io-client";
 
 
 type MessageProp = {
@@ -18,18 +19,22 @@ type ContainerProp = {
   _id: string;
   username: string;
   email: string;
-  }
+  },
+  socket: React.MutableRefObject<Socket | undefined> ;
 }
+
+
 export default function ChatContainer({ currentChat, socket }: ContainerProp) {
   const [messages, setMessages] = useState<MessageProp[]>([]);
   const scrollRef = useRef<HTMLInputElement>(null);
   const [arrivalMessage, setArrivalMessage] = useState<MessageProp>();
 
+  // this hook enable us to receive msg
   useEffect(() => {
     (async () => {
-      let dataString = localStorage.getItem("chat user")
-       const data = dataString ? JSON.parse(dataString) : null;
-    const response = await axios.post(recieveMessageRoute, {
+      let userString = localStorage.getItem("chat user")
+       const data = userString ? JSON.parse(userString) : null;
+      const response = await axios.post(recieveMessageRoute, {
       from: data._id,
       to: currentChat._id,
     });
@@ -48,9 +53,12 @@ export default function ChatContainer({ currentChat, socket }: ContainerProp) {
     getCurrentChat();
   }, [currentChat]);
 
+
+  // this func enables us to send msg
   const handleSendMsg = async (msg: string) => {
-   let dataString = localStorage.getItem("chat user")
-       const data = dataString ? JSON.parse(dataString) : null;
+   let userString = localStorage.getItem("chat user")
+    const data = userString ? JSON.parse(userString) : null;
+    if (!socket.current) { alert(" not connected, please reload"); return; }
     socket.current.emit("send-msg", {
       to: currentChat._id,
       from: data._id,
@@ -79,6 +87,7 @@ export default function ChatContainer({ currentChat, socket }: ContainerProp) {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);
 
+  // this hook enables us to scroll message with the chat container  
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);

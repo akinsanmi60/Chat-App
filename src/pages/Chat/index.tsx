@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import { allUsersRoute, host } from "../../utils/APIRoutes";
 import ChatContainer from "../../components/ChatContainer";
 import Contacts from "../../components/ChatContact";
@@ -22,24 +22,12 @@ type ContactProp = {
   email: string;
 }
 
-type ChatProp = {
-  chat: {
-    avatarImage: string;
-  _id: string;
-  username: string;
-  email: string;
-  }
-}
+
 export default function Chat() {
   const navigate = useNavigate();
-  const socket = useRef();
+  const socket = useRef<Socket>();
   const [contacts, setContacts] = useState<ContactProp[]>([]);
-  const [currentChat, setCurrentChat] = useState({
-    avatarImage: "",
-    _id: "",
-    username: "",
-    email: "",
-});
+  const [currentChat, setCurrentChat] = useState<ContactProp>();
   const [currentUser, setCurrentUser] = useState<CurrentProp>();
 
 
@@ -53,15 +41,15 @@ export default function Chat() {
         );
       }
     })()
-  },[]); 
+  }, [navigate]);
 
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     socket.current = io(host);
-  //     socket.current.emit("add-user", currentUser._id);
-  //   }
-  // }, [currentUser]);
+  useEffect(() => {
+    if (currentUser) {
+      socket.current = io(host);
+      socket.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     (async () => {
@@ -70,15 +58,18 @@ export default function Chat() {
           const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
           setContacts(data?.data);
         } else {
-          navigate("/setAvatar"); 
+          navigate("/setAvatar");
         }
       }
     })()
   }, [currentUser, navigate]);
-  const handleChatChange = ({chat}: ChatProp) => {
-    setCurrentChat(chat);
 
+  const handleChatChange = (chat: ContactProp) => {
+    console.log("+++++", chat)
+    setCurrentChat(chat);
   };
+
+
   return (
     <>
       <Container>

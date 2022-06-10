@@ -4,6 +4,8 @@ import { BiPowerOff } from "react-icons/bi";
 import axios from "axios";
 import { logoutRoute } from "../../utils/APIRoutes";
 import { Button } from "./style";
+
+
 export default function Logout() {
   const navigate = useNavigate();
     const handleClick = async () => {
